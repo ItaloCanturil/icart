@@ -17,9 +17,9 @@ export function Navbar() {
 			<h1 className="text-lg font-semibold">Navbar</h1>
 
 			<Input
-				placeholder="Search products"
-				className={`transition-all duration-300 ease-in-out ${
-					navFocus ? "w-64" : "w-32"
+				placeholder="Procurar produtos"
+				className={`transition-all duration-300 ease-in-out shadow-lg ${
+					navFocus ? "w-64" : "w-44"
 				}`}
 				onFocus={() => setNavFocus(true)}
 				onBlur={() => setNavFocus(false)}
