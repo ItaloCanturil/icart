@@ -1,6 +1,5 @@
 "use client";
 
-import { error } from "console";
 import { useContext, createContext, useEffect, useState, ReactNode } from "react";
 import { flushSync } from "react-dom";
 
@@ -13,25 +12,31 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode}) {
     const [theme, setTheme] = useState<ThemeContextType['theme']>('light');
-    const [mounted, setMounted] = useState(false);
 
+    // Initialize theme from localStorage and sync the root .dark class
     useEffect(() => {
-        const stored = localStorage.getItem('theme');
+        const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
         const isDark = stored !== 'light';
-        const initalTheme = isDark ? 'dark' : 'light';
-        setTheme(initalTheme);
-        localStorage.setItem('theme', initalTheme);
+        const initialTheme: ThemeContextType['theme'] = isDark ? 'dark' : 'light';
+        setTheme(initialTheme);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('theme', initialTheme);
+            document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+        }
     }, []);
 
+    // Persist theme and toggle the root .dark class whenever theme changes
     useEffect(() => {
-        if (mounted) localStorage.setItem('theme', theme);
-    }, [theme, mounted]);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        }
+    }, [theme]);
 
     function toggleTheme() {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         if (!document.startViewTransition) {
             setTheme(newTheme);
-            document.body.classList.toggle('dark', newTheme === 'dark');
             return;
         }
         document.startViewTransition(() => {
@@ -40,8 +45,6 @@ export function ThemeProvider({ children }: { children: ReactNode}) {
             });
         });
     };
-
-    if (!mounted) return <>{ children }</>
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

@@ -1,10 +1,13 @@
+import { Navbar } from "@/components/navbar";
 
 export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-background text-foreground py-12">
-      <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
+
+      <main className="mx-auto max-w-7xl sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Produtos</h1>
         </div>
