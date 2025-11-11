@@ -13,8 +13,10 @@ export function Navbar() {
 	const isDark = theme === "dark";
 
 	return (
-		<div className="bg-primary text-primary-foreground p-4 flex justify-between items-center">
-			<h1 className="text-lg font-semibold">Navbar</h1>
+		<div className="bg-secondary p-4 flex justify-between items-center">
+			<h1 className="text-lg font-semibold text-secondary-foreground">
+				BeroShop
+			</h1>
 
 			<Input
 				placeholder="Procurar produtos"
@@ -31,7 +33,11 @@ export function Navbar() {
 				aria-label="Toggle theme"
 				className="text-primary-foreground"
 			>
-				{isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+				{isDark ? (
+					<Sun className="h-4 w-4 text-secondary-foreground" />
+				) : (
+					<Moon className="h-4 w-4" />
+				)}
 				<span className="sr-only">Toggle theme</span>
 			</Button>
 		</div>
